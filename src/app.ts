@@ -1,0 +1,42 @@
+import express from 'express'
+import path from 'path'
+import { engine } from 'express-handlebars'
+import session from 'express-session'
+import './types/session'
+import affiliateRouter from './routes/affiliate.routes'
+import authRouter from './routes/auth.routes'
+import { requireAuth } from './middleware/requireAuth'
+
+const app = express()
+
+const viewsPath = path.join(__dirname, '..', 'views')
+
+app.engine('hbs', engine({
+  extname: '.hbs',
+  defaultLayout: 'main',
+  layoutsDir: path.join(viewsPath, 'layouts'),
+  helpers: {
+    eq: (left: unknown, right: unknown) => left === right
+  }
+}))
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+
+app.use(express.urlencoded({ extended: true }))
+
+app.use(session({
+  secret: process.env.SESSION_SECRET ?? 'dev-secret',
+  resave: false,
+  saveUninitialized: false
+}))
+
+app.use((req, _res, next) => {
+  _res.locals.session = req.session
+  next()
+})
+
+app.get('/', (_req, res) => res.render('home'))
+app.use('/auth', authRouter)
+app.use('/affiliates', requireAuth, affiliateRouter)
+
+export default app

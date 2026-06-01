@@ -1,0 +1,40 @@
+<a class="btn btn-link mb-3" href="/affiliates">← Volver a la lista de afiliados</a>
+
+<h1 class="h4 mb-3">Nuevo Afiliado</h1>
+
+<form action="/affiliates" method="POST" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="firstName" class="form-label">Nombre</label>
+    <input type="text" class="form-control {{#if errors.firstName}}is-invalid{{/if}}" id="firstName" name="firstName" value="{{values.firstName}}" required>
+    {{#if errors.firstName}}
+      <div class="invalid-feedback d-block">{{errors.firstName}}</div>
+    {{/if}}
+  </div>
+  <div class="mb-3">
+    <label for="lastName" class="form-label">Apellido</label>
+    <input type="text" class="form-control {{#if errors.lastName}}is-invalid{{/if}}" id="lastName" name="lastName" value="{{values.lastName}}" required>
+    {{#if errors.lastName}}
+      <div class="invalid-feedback d-block">{{errors.lastName}}</div>
+    {{/if}}
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control {{#if errors.email}}is-invalid{{/if}}" id="email" name="email" value="{{values.email}}" required>
+    {{#if errors.email}}
+      <div class="invalid-feedback d-block">{{errors.email}}</div>
+    {{/if}}
+  </div>
+  <div class="mb-3">
+    <label for="membershipType" class="form-label">Tipo de Membresía</label>
+    <select class="form-control {{#if errors.membershipType}}is-invalid{{/if}}" id="membershipType" name="membershipType" required>
+      <option value="">Seleccionar...</option>
+      <option value="gold" {{#if (eq values.membershipType "gold")}}selected{{/if}}>Gold</option>
+      <option value="silver" {{#if (eq values.membershipType "silver")}}selected{{/if}}>Silver</option>
+      <option value="platinum" {{#if (eq values.membershipType "platinum")}}selected{{/if}}>Platinum</option>
+    </select>
+    {{#if errors.membershipType}}
+      <div class="invalid-feedback d-block">{{errors.membershipType}}</div>
+    {{/if}}
+  </div>
+  <button type="submit" class="btn btn-primary">Crear Afiliado</button>
+</form>

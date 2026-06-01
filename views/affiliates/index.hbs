@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Afiliados</h1>
+  <a class="btn btn-success" href="/affiliates/create">+ Nuevo Afiliado</a>
+</div>
+
+{{#if affiliates}}
+  <div class="table-responsive">
+    <table class="table align-middle table-hover">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Email</th>
+          <th scope="col">Membresía</th>
+          <th scope="col" class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each affiliates}}
+          <tr>
+            <td>
+              <div class="fw-semibold">{{firstName}} {{lastName}}</div>
+              
+            </td>
+            <td>{{email}}</td>
+            <td>
+              <span class="badge text-bg-primary">{{membershipType}}</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-outline-secondary btn-sm" href="/affiliates/{{id}}">Ver</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{else}}
+  <div class="alert alert-info">No hay afiliados disponibles.</div>
+{{/if}}
