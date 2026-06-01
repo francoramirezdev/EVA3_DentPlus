@@ -13,46 +13,50 @@ Aplicación web en Node.js, Express, Prisma y Handlebars para autenticación y g
 
 - Node.js 18 o superior.
 - yarn.
-- Docker y Docker Compose.
+- Docker.
 
 ## Instalación
+
+Sigue estos pasos para preparar y arrancar el proyecto en tu máquina de desarrollo.
+
+1. Instala dependencias:
 
 ```bash
 yarn install
 ```
 
-Configura tu archivo `.env` con valores como estos:
-
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/affiliates_db
-SESSION_SECRET=tu_secreto
-PORT=3000
-```
-
-Para levantar PostgreSQL con Docker:
+2. Crea el fichero de entorno `.env`.
 
 ```bash
-docker compose up -d db
+cp .env.example .env
 ```
 
-## Comandos útiles
-
-Comandos principales con `yarn`:
+3. Levanta la base de datos PostgreSQL con Docker Compose:
 
 ```bash
-yarn dev
-yarn build
-yarn start
+docker compose up --build -d
+```
+
+4. Ejecuta migraciones y genera el cliente de Prisma (primera ejecución o después de cambios en `schema.prisma`):
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+5. (Opcional) Carga datos de ejemplo:
+
+```bash
 yarn seed
 ```
 
-Comandos puntuales con `npx` (Prisma):
+6. Arranca la aplicación en modo desarrollo:
 
 ```bash
-npx prisma generate
-npx prisma migrate dev --name init
-npx prisma studio
+yarn dev
 ```
+
+Abrir http://localhost:3000
 
 ## Estructura del proyecto
 
