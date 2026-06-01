@@ -1,24 +1,24 @@
-# eva3_DentPlus
+# EVA3_DentPlus
 
 Aplicación web en Node.js, Express, Prisma y Handlebars para autenticación y gestión de afiliados.
 
 ## Qué incluye
 
-- Login y registro con sesión.
-- CRUD de afiliados.
-- Vistas renderizadas del lado del servidor con Handlebars.
-- Base de datos PostgreSQL levantada con Docker.
+- Autenticación (login y registro) con manejo de sesión.
+- CRUD completo de afiliados.
+- Vistas server-side con Handlebars.
+- PostgreSQL ejecutándose en Docker Compose.
 
 ## Requisitos
 
 - Node.js 18 o superior.
-- npm.
+- yarn.
 - Docker y Docker Compose.
 
 ## Instalación
 
 ```bash
-npm install
+yarn install
 ```
 
 Configura tu archivo `.env` con valores como estos:
@@ -37,11 +37,21 @@ docker compose up -d db
 
 ## Comandos útiles
 
+Comandos principales con `yarn`:
+
 ```bash
-npm run dev
-npm run build
-npm start
-npm run seed
+yarn dev
+yarn build
+yarn start
+yarn seed
+```
+
+Comandos puntuales con `npx` (Prisma):
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+npx prisma studio
 ```
 
 ## Estructura del proyecto
@@ -113,8 +123,3 @@ eva3_DentPlus/
 5. `src/models/` consulta la base de datos con Prisma.
 6. `prisma/schema.prisma` define la estructura de la base de datos.
 7. `prisma/seed.ts` inserta datos de ejemplo.
-
-## Notas
-
-- PostgreSQL se ejecuta mediante Docker Compose.
-- Si quieres, puedo añadir una sección con las rutas disponibles y capturas de pantalla de las vistas.
