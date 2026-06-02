@@ -15,7 +15,7 @@ Aplicación web en Node.js, Express, Prisma y Handlebars para autenticación y g
 - yarn.
 - Docker.
 
-## Instalación
+## Instalación (Local)
 
 Sigue estos pasos para preparar y arrancar el proyecto en tu máquina de desarrollo.
 
@@ -54,6 +54,14 @@ yarn seed
 
 ```bash
 yarn dev
+```
+
+## Instalación (App en Docker)
+
+1. Levanta la App y Base de datos en Docker
+
+```bash
+docker compose up --build
 ```
 
 Abrir http://localhost:3000
