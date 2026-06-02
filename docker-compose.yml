@@ -1,10 +1,48 @@
+# Define los servicios que se levantan con Docker Compose
 services:
+  # Base de datos PostgreSQL para desarrollo local
   db:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
+      # Credenciales de la BD (solo para entorno de desarrollo)
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: affiliates_db
     ports:
+      # Expone PostgreSQL en localhost:5432
       - "5432:5432"
+    volumes:
+      # Persiste la data de PostgreSQL entre reinicios del contenedor
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Marca el servicio como saludable cuando PostgreSQL acepta conexiones
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Aplicación Node.js/Express
+  app:
+    # Construye la imagen desde el Dockerfile del proyecto
+    build: .
+    restart: unless-stopped
+    ports:
+      # Expone la app en localhost:3000
+      - "3000:3000"
+    environment:
+      # Conexión a PostgreSQL usando el nombre del servicio "db"
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/affiliates_db
+      SESSION_SECRET: docker-dev-secret
+      NODE_ENV: production
+      PORT: 3000
+    depends_on:
+      db:
+        # Espera a que la BD esté saludable antes de iniciar la app
+        condition: service_healthy
+    command: >
+      sh -c "npx prisma db push && node dist/index.js"
+
+# Volumen nombrado para persistencia de la base de datos
+volumes:
+  postgres_data:
